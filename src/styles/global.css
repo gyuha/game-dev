@@ -1,0 +1,31 @@
+@import 'tailwindcss';
+@plugin '@tailwindcss/typography';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+	--font-sans: 'Pretendard', 'Apple SD Gothic Neo', 'Noto Sans KR', system-ui, sans-serif;
+	--font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+	--color-accent: oklch(0.72 0.17 160);
+}
+
+html {
+	scroll-behavior: smooth;
+}
+
+/* 코드 블록은 테마와 무관하게 github-dark 배경 사용 */
+.prose pre {
+	border: 1px solid rgb(255 255 255 / 0.08);
+}
+
+.mermaid-chart {
+	overflow-x: auto;
+	margin: 1.5rem 0;
+	text-align: center;
+}
+
+.mermaid-chart svg {
+	max-width: 100%;
+	height: auto;
+	margin-inline: auto;
+}

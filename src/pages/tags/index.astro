@@ -1,0 +1,22 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getPosts, tagSlug, url } from '../../lib/utils';
+
+const posts = await getPosts();
+const counts = new Map<string, number>();
+for (const p of posts) for (const t of p.data.tags) counts.set(t, (counts.get(t) ?? 0) + 1);
+const tags = [...counts].sort((a, b) => b[1] - a[1]);
+---
+
+<BaseLayout title="Tags">
+	<h1 class="text-3xl font-extrabold">태그</h1>
+	<div class="mt-8 flex flex-wrap gap-2">
+		{
+			tags.map(([tag, n]) => (
+				<a href={url(`tags/${tagSlug(tag)}/`)} class="rounded-lg border border-zinc-300 px-3 py-1.5 font-mono text-sm hover:border-accent hover:text-accent dark:border-zinc-700">
+					#{tag} <span class="text-zinc-500">{n}</span>
+				</a>
+			))
+		}
+	</div>
+</BaseLayout>

@@ -1,0 +1,40 @@
+---
+import '../styles/global.css';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import { url } from '../lib/utils';
+
+interface Props {
+	title?: string;
+	description?: string;
+	image?: string;
+	type?: 'website' | 'article';
+}
+
+const { title, description = SITE_DESCRIPTION, image, type = 'website' } = Astro.props;
+const fullTitle = title ? `${title} | ${SITE_TITLE}` : SITE_TITLE;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+---
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="icon" type="image/svg+xml" href={url('favicon.svg')} />
+<link rel="sitemap" href={url('sitemap-index.xml')} />
+<link rel="alternate" type="application/rss+xml" title={SITE_TITLE} href={url('rss.xml')} />
+<link rel="canonical" href={canonicalURL} />
+<meta name="generator" content={Astro.generator} />
+
+<title>{fullTitle}</title>
+<meta name="description" content={description} />
+
+<meta property="og:type" content={type} />
+<meta property="og:url" content={canonicalURL} />
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
+{image && <meta property="og:image" content={new URL(image, Astro.site)} />}
+<meta name="twitter:card" content={image ? 'summary_large_image' : 'summary'} />
+
+<!-- 다크 모드 기본, 사용자가 선택한 테마 유지 (깜빡임 방지를 위해 inline) -->
+<script is:inline>
+	const theme = localStorage.getItem('theme') ?? 'dark';
+	document.documentElement.classList.toggle('dark', theme === 'dark');
+</script>

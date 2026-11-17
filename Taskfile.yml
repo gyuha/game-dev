@@ -1,0 +1,77 @@
+version: '3'
+
+vars:
+  REPO:
+    sh: gh repo view --json nameWithOwner -q .nameWithOwner
+  SITE_URL: https://gyuha.github.io/game-dev/
+
+tasks:
+  default:
+    cmds:
+      - task --list
+    silent: true
+
+  install:
+    desc: 의존성 설치
+    cmds:
+      - npm ci
+    sources:
+      - package-lock.json
+    generates:
+      - node_modules/.package-lock.json
+
+  dev:
+    desc: 개발 서버 실행 (http://localhost:4321/game-dev/)
+    deps: [install]
+    cmds:
+      - npm run dev
+
+  build:
+    desc: 정적 사이트 빌드 (dist/)
+    deps: [install]
+    cmds:
+      - npm run build
+
+  preview:
+    desc: 빌드 결과 미리보기
+    deps: [build]
+    cmds:
+      - npm run preview
+
+  clean:
+    desc: 빌드 산출물 삭제
+    cmds:
+      - rm -rf dist .astro
+
+  pages:setup:
+    desc: GitHub Pages 배포 소스를 GitHub Actions로 설정 (최초 1회)
+    cmds:
+      - |
+        if gh api repos/{{.REPO}}/pages >/dev/null 2>&1; then
+          gh api -X PUT repos/{{.REPO}}/pages -f build_type=workflow
+        else
+          gh api -X POST repos/{{.REPO}}/pages -f build_type=workflow >/dev/null
+        fi
+      - echo "Pages 소스 = GitHub Actions ({{.REPO}})"
+
+  deploy:
+    desc: 로컬 빌드 검증 → main push(또는 워크플로 수동 실행) → 배포 완료까지 대기
+    preconditions:
+      - sh: '[ "$(git branch --show-current)" = "main" ]'
+        msg: main 브랜치에서만 배포할 수 있습니다.
+      - sh: '[ -z "$(git status --porcelain)" ]'
+        msg: 커밋되지 않은 변경이 있습니다. 먼저 커밋하세요.
+    cmds:
+      - task: build
+      - task: pages:setup
+      - git fetch origin main
+      - |
+        if [ "$(git rev-parse HEAD)" = "$(git rev-parse origin/main)" ]; then
+          echo "push할 커밋이 없어 워크플로를 수동 실행합니다."
+          gh workflow run deploy.yml --ref main
+        else
+          git push origin main
+        fi
+      - sleep 5
+      - gh run watch --exit-status "$(gh run list --workflow=deploy.yml --branch main --limit 1 --json databaseId -q '.[0].databaseId')"
+      - echo "배포 완료 → {{.SITE_URL}}"

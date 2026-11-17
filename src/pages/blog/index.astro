@@ -1,0 +1,56 @@
+---
+import PostCard from '../../components/PostCard.astro';
+import { CATEGORIES } from '../../consts';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getPosts, url } from '../../lib/utils';
+
+const posts = await getPosts();
+---
+
+<BaseLayout title="Posts">
+	<h1 class="text-3xl font-extrabold">전체 글 <span class="text-zinc-500">({posts.length})</span></h1>
+
+	<input
+		id="search"
+		type="search"
+		placeholder="제목, 설명, 태그 검색…"
+		class="mt-6 w-full rounded-lg border border-zinc-300 bg-white px-4 py-2.5 outline-none focus:border-accent dark:border-zinc-700 dark:bg-zinc-900"
+	/>
+
+	<div class="mt-4 flex flex-wrap gap-2 text-sm">
+		{
+			Object.entries(CATEGORIES).map(([key, c]) => (
+				<a href={url(`category/${key}/`)} class="rounded-full border border-zinc-300 px-3 py-1 hover:border-accent hover:text-accent dark:border-zinc-700">
+					{c.label}
+				</a>
+			))
+		}
+	</div>
+
+	<div id="post-list" class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+		{
+			posts.map((post) => (
+				<div data-search={[post.data.title, post.data.description, ...post.data.tags].join(' ').toLowerCase()}>
+					<PostCard post={post} />
+				</div>
+			))
+		}
+	</div>
+	<p id="no-result" class="mt-8 hidden text-center text-zinc-500">검색 결과가 없습니다.</p>
+</BaseLayout>
+
+<script>
+	const input = document.getElementById('search') as HTMLInputElement;
+	const items = document.querySelectorAll<HTMLElement>('#post-list > [data-search]');
+	const empty = document.getElementById('no-result')!;
+	input.addEventListener('input', () => {
+		const q = input.value.trim().toLowerCase();
+		let shown = 0;
+		items.forEach((el) => {
+			const match = el.dataset.search!.includes(q);
+			el.hidden = !match;
+			if (match) shown++;
+		});
+		empty.classList.toggle('hidden', shown > 0);
+	});
+</script>

@@ -1,0 +1,119 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import type { MarkdownHeading } from 'astro';
+import FormattedDate from '../components/FormattedDate.astro';
+import Giscus from '../components/Giscus.astro';
+import { CATEGORIES } from '../consts';
+import { tagSlug, url } from '../lib/utils';
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+	post: CollectionEntry<'blog'>;
+	headings: MarkdownHeading[];
+	prev?: CollectionEntry<'blog'>;
+	next?: CollectionEntry<'blog'>;
+}
+
+const { post, headings, prev, next } = Astro.props;
+const { title, description, pubDate, updatedDate, category, tags, heroImage, source } = post.data;
+const toc = headings.filter((h) => h.depth === 2 || h.depth === 3);
+---
+
+<BaseLayout title={title} description={description} image={heroImage?.src} type="article">
+	<div class="grid gap-10 lg:grid-cols-[1fr_220px]">
+		<article class="min-w-0">
+			<header class="mb-8 border-b border-zinc-200 pb-6 dark:border-zinc-800">
+				<a href={url(`category/${category}/`)} class="text-sm font-semibold text-accent hover:underline">
+					{CATEGORIES[category].label}
+				</a>
+				<h1 class="mt-2 text-3xl font-extrabold leading-tight md:text-4xl">{title}</h1>
+				<p class="mt-3 text-zinc-600 dark:text-zinc-400">{description}</p>
+				<div class="mt-4 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-zinc-500">
+					<FormattedDate date={pubDate} />
+					{updatedDate && <span>(수정: <FormattedDate date={updatedDate} />)</span>}
+					{source && <a href={source} class="hover:text-accent" target="_blank" rel="noopener">원문 ↗</a>}
+				</div>
+				{
+					tags.length > 0 && (
+						<div class="mt-3 flex flex-wrap gap-1">
+							{tags.map((t) => (
+								<a href={url(`tags/${tagSlug(t)}/`)} class="rounded bg-zinc-100 px-2 py-0.5 font-mono text-xs hover:text-accent dark:bg-zinc-800">
+									#{t}
+								</a>
+							))}
+						</div>
+					)
+				}
+			</header>
+
+			{heroImage && <Image src={heroImage} alt="" width={1020} height={510} class="mb-8 rounded-xl" />}
+
+			<div class="prose prose-zinc max-w-none dark:prose-invert prose-a:text-accent prose-headings:scroll-mt-20 prose-pre:rounded-lg prose-code:before:content-none prose-code:after:content-none">
+				<slot />
+			</div>
+			<script>
+				import mermaid from 'mermaid';
+
+				const renderMermaid = async () => {
+					// Shiki 는 ```mermaid 블록을 <pre data-language="mermaid"> 로 출력한다
+					const blocks = document.querySelectorAll<HTMLElement>('.prose pre[data-language="mermaid"]');
+					if (!blocks.length) return;
+
+					mermaid.initialize({ startOnLoad: false, securityLevel: 'strict', theme: 'neutral' });
+					for (const [index, pre] of blocks.entries()) {
+						const container = document.createElement('div');
+						container.className = 'mermaid-chart not-prose';
+						container.setAttribute('role', 'img');
+						container.setAttribute('aria-label', `Mermaid 다이어그램 ${index + 1}`);
+						container.textContent = pre.textContent ?? '';
+						pre.replaceWith(container);
+					}
+					await mermaid.run({ querySelector: '.mermaid-chart' });
+				};
+
+				void renderMermaid();
+			</script>
+
+			<nav class="mt-16 grid gap-4 border-t border-zinc-200 pt-6 sm:grid-cols-2 dark:border-zinc-800">
+				{
+					prev ? (
+						<a href={url(`blog/${prev.id}/`)} class="rounded-lg border border-zinc-200 p-4 hover:border-accent dark:border-zinc-800">
+							<div class="text-xs text-zinc-500">← 이전 글</div>
+							<div class="font-semibold">{prev.data.title}</div>
+						</a>
+					) : <div />
+				}
+				{
+					next && (
+						<a href={url(`blog/${next.id}/`)} class="rounded-lg border border-zinc-200 p-4 text-right hover:border-accent dark:border-zinc-800">
+							<div class="text-xs text-zinc-500">다음 글 →</div>
+							<div class="font-semibold">{next.data.title}</div>
+						</a>
+					)
+				}
+			</nav>
+
+			<Giscus />
+		</article>
+
+		{
+			toc.length > 0 && (
+				<aside class="hidden lg:block">
+					<div class="sticky top-24 text-sm">
+						<div class="mb-2 font-semibold text-zinc-500">목차</div>
+						<ul class="space-y-1.5 border-l border-zinc-200 dark:border-zinc-800">
+							{toc.map((h) => (
+								<li class:list={[h.depth === 3 ? 'pl-6' : 'pl-3']}>
+									<a href={`#${h.slug}`} class="text-zinc-600 hover:text-accent dark:text-zinc-400">
+										{h.text}
+									</a>
+								</li>
+							))}
+						</ul>
+					</div>
+				</aside>
+			)
+		}
+	</div>
+</BaseLayout>

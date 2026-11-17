@@ -1,0 +1,26 @@
+---
+import PostCard from '../../components/PostCard.astro';
+import { CATEGORIES, type Category } from '../../consts';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getPosts } from '../../lib/utils';
+
+export async function getStaticPaths() {
+	const posts = await getPosts();
+	return (Object.keys(CATEGORIES) as Category[]).map((category) => ({
+		params: { category },
+		props: { category, posts: posts.filter((p) => p.data.category === category) },
+	}));
+}
+
+const { category, posts } = Astro.props;
+const info = CATEGORIES[category];
+---
+
+<BaseLayout title={info.label} description={info.description}>
+	<h1 class="text-3xl font-extrabold">{info.label}</h1>
+	<p class="mt-2 text-zinc-600 dark:text-zinc-400">{info.description}</p>
+	{posts.length === 0 && <p class="mt-10 text-zinc-500">아직 글이 없습니다.</p>}
+	<div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+		{posts.map((post) => <PostCard post={post} />)}
+	</div>
+</BaseLayout>

@@ -1,0 +1,24 @@
+---
+import PostCard from '../../components/PostCard.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getPosts, tagSlug } from '../../lib/utils';
+
+export async function getStaticPaths() {
+	const posts = await getPosts();
+	const tags = new Map<string, string>(); // slug -> 표시용 원래 이름
+	for (const p of posts) for (const t of p.data.tags) tags.set(tagSlug(t), t);
+	return [...tags].map(([slug, name]) => ({
+		params: { tag: slug },
+		props: { name, posts: posts.filter((p) => p.data.tags.some((t) => tagSlug(t) === slug)) },
+	}));
+}
+
+const { name, posts } = Astro.props;
+---
+
+<BaseLayout title={`#${name}`}>
+	<h1 class="font-mono text-3xl font-extrabold">#{name}</h1>
+	<div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+		{posts.map((post) => <PostCard post={post} />)}
+	</div>
+</BaseLayout>
