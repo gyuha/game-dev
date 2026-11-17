@@ -5,7 +5,6 @@ pubDate: 2026-11-17
 category: game-design
 tags: ["최적화", "오브젝트 풀링", "Unity"]
 source: "https://www.youtube.com/shorts/dn5mS5ocZ5Y"
-heroImageUrl: "https://i.ytimg.com/vi/dn5mS5ocZ5Y/maxresdefault.jpg"
 ---
 
 오브젝트 풀링은 총알처럼 짧게 살다 사라지는 오브젝트를 미리 만들어 재사용하는 기법입니다. 하지만 반복 생성과 제거가 일어나는 곳이라면 UI, 사운드 재생 객체, 임시 자료구조에도 적용을 검토할 수 있습니다. 이 글은 오늘코딩의 Shorts 내용을 요약했으며 직접 성능을 측정한 결과는 아닙니다.

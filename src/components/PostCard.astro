@@ -1,5 +1,4 @@
 ---
-import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import { CATEGORIES } from '../consts';
 import { url } from '../lib/utils';
@@ -9,24 +8,13 @@ interface Props {
 	post: CollectionEntry<'blog'>;
 }
 const { post } = Astro.props;
-const { title, description, pubDate, category, tags, heroImage, heroImageUrl } = post.data;
+const { title, description, pubDate, category, tags } = post.data;
 ---
 
 <a
 	href={url(`blog/${post.id}/`)}
 	class="group flex flex-col overflow-hidden rounded-xl border border-zinc-200 bg-white transition hover:-translate-y-0.5 hover:border-accent dark:border-zinc-800 dark:bg-zinc-900"
 >
-	{
-		heroImageUrl ? (
-			<img src={heroImageUrl} alt="" loading="lazy" class="aspect-[2/1] w-full object-cover" />
-		) : heroImage ? (
-			<Image src={heroImage} alt="" width={640} height={320} class="aspect-[2/1] w-full object-cover" />
-		) : (
-			<div class="flex aspect-[2/1] w-full items-center justify-center bg-gradient-to-br from-zinc-800 to-zinc-950 font-mono text-sm text-accent">
-				{CATEGORIES[category].label}
-			</div>
-		)
-	}
 	<div class="flex flex-1 flex-col gap-2 p-4">
 		<div class="flex items-center gap-2 text-xs text-zinc-500">
 			<span class="font-semibold text-accent">{CATEGORIES[category].label}</span>

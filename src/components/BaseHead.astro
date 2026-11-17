@@ -30,7 +30,6 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 <meta property="og:url" content={canonicalURL} />
 <meta property="og:title" content={fullTitle} />
 <meta property="og:description" content={description} />
-{image && <meta property="og:image" content={new URL(image, Astro.site)} />}
 <meta name="twitter:card" content={image ? 'summary_large_image' : 'summary'} />
 
 <!-- 다크 모드 기본, 사용자가 선택한 테마 유지 (깜빡임 방지를 위해 inline) -->

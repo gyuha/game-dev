@@ -1,5 +1,4 @@
 ---
-import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import type { MarkdownHeading } from 'astro';
 import FormattedDate from '../components/FormattedDate.astro';
@@ -16,12 +15,11 @@ interface Props {
 }
 
 const { post, headings, prev, next } = Astro.props;
-const { title, description, pubDate, updatedDate, category, tags, heroImage, heroImageUrl, source } = post.data;
-const socialImage = heroImageUrl ?? (heroImage ? new URL(heroImage.src, Astro.site).href : undefined);
+const { title, description, pubDate, updatedDate, category, tags, source } = post.data;
 const toc = headings.filter((h) => h.depth === 2 || h.depth === 3);
 ---
 
-<BaseLayout title={title} description={description} image={socialImage} type="article">
+<BaseLayout title={title} description={description} type="article">
 	<div class="grid gap-10 lg:grid-cols-[1fr_220px]">
 		<article class="min-w-0">
 			<header class="mb-8 border-b border-zinc-200 pb-6 dark:border-zinc-800">
@@ -47,8 +45,6 @@ const toc = headings.filter((h) => h.depth === 2 || h.depth === 3);
 					)
 				}
 			</header>
-
-			{heroImageUrl ? <img src={heroImageUrl} alt="" class="mb-8 w-full rounded-xl" /> : heroImage && <Image src={heroImage} alt="" width={1020} height={510} class="mb-8 rounded-xl" />}
 
 			<div class="prose prose-zinc max-w-none dark:prose-invert prose-a:text-accent prose-headings:scroll-mt-20 prose-pre:rounded-lg prose-code:before:content-none prose-code:after:content-none">
 				<slot />
