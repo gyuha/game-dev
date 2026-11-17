@@ -10,7 +10,7 @@
 - Keep technical claims accurate and distinguish verified facts from opinion or uncertainty. For posts based on external material, include the canonical URL in `source` and make clear what is quoted, summarized, or tested firsthand.
 - Use the content schema in `src/content.config.ts`. Required frontmatter: `title`, `description`, `pubDate`, `category`. Optional fields: `updatedDate`, `tags`, `heroImage`, `source`, `draft`.
 - Use ISO date values for `pubDate` and `updatedDate`; set `draft: true` for unfinished posts. Drafts are excluded from the published build.
-- Choose exactly one existing category key from `src/consts.ts`: `devlog`, `godot`, `game-design`, `graphics-ai`, or `resources`. Change category definitions and the schema together when adding a category.
+- Keep exactly five categories. Use one existing key from `src/consts.ts`: `devlog`, `game-engines`, `game-design`, `graphics-ai`, or `resources`. Do not add a sixth category; update category definitions and the content schema together if renaming or replacing one.
 - Tags are plain strings. Prefer a small set of specific, consistently named tags; check existing posts before introducing new spellings.
 - Keep images near the post and reference them with a relative `heroImage` path when used. Avoid adding dependencies for a post without a clear need.
 - Use headings, lists, code fences with language identifiers, and links to make longer articles easy to scan. Include runnable, version-appropriate code when possible.

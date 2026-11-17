@@ -9,7 +9,7 @@ interface Props {
 	post: CollectionEntry<'blog'>;
 }
 const { post } = Astro.props;
-const { title, description, pubDate, category, tags, heroImage } = post.data;
+const { title, description, pubDate, category, tags, heroImage, heroImageUrl } = post.data;
 ---
 
 <a
@@ -17,7 +17,9 @@ const { title, description, pubDate, category, tags, heroImage } = post.data;
 	class="group flex flex-col overflow-hidden rounded-xl border border-zinc-200 bg-white transition hover:-translate-y-0.5 hover:border-accent dark:border-zinc-800 dark:bg-zinc-900"
 >
 	{
-		heroImage ? (
+		heroImageUrl ? (
+			<img src={heroImageUrl} alt="" loading="lazy" class="aspect-[2/1] w-full object-cover" />
+		) : heroImage ? (
 			<Image src={heroImage} alt="" width={640} height={320} class="aspect-[2/1] w-full object-cover" />
 		) : (
 			<div class="flex aspect-[2/1] w-full items-center justify-center bg-gradient-to-br from-zinc-800 to-zinc-950 font-mono text-sm text-accent">

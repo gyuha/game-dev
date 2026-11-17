@@ -5,6 +5,7 @@ pubDate: 2026-11-17
 category: graphics-ai
 tags: ["AI", "Higgsfield", "Coding Agent", "Prototyping"]
 source: "https://www.youtube.com/watch?v=4gOrUimSHmU"
+heroImageUrl: "https://i.ytimg.com/vi/4gOrUimSHmU/maxresdefault.jpg"
 ---
 
 게임 아이디어는 있는데 코드부터 짜기 막막할 때, **화면부터 그려서 그것을 기획서로 쓰는 방법**이 있습니다. 유튜브 채널 「코드깎는노인」의 영상 *요즘 AI는 영상을 게임으로 만들어줍니다 | 힉스필드로 게임만들기*(2026-11-16 공개, 약 15분)는 AI 이미지·영상 플랫폼 Higgsfield로 게임 화면과 플레이 영상을 먼저 만들고, 그 영상을 코딩 에이전트에게 보여 줘 실제로 플레이할 수 있는 게임을 만드는 과정을 보여 줍니다.

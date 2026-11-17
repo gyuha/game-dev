@@ -5,7 +5,7 @@ export const GITHUB_URL = 'https://github.com/gyuha/game-dev';
 // 카테고리 key 는 content.config.ts 의 category enum 과 일치해야 합니다.
 export const CATEGORIES = {
 	devlog: { label: 'Devlog', description: '주간 개발 기록, 구현 결과, 문제 해결' },
-	godot: { label: 'Godot', description: '엔진 활용, GDScript, 쉐이더, 성능 최적화' },
+	'game-engines': { label: 'Game Engines', description: 'Godot, Unity, Unreal 등 게임 엔진 활용과 개발' },
 	'game-design': { label: 'Game Design', description: '게임 기획, 전투 시스템, 밸런스' },
 	'graphics-ai': { label: 'Graphics & AI', description: '스프라이트, 애니메이션, AI 이미지 생성' },
 	resources: { label: 'Resources', description: '수집한 문서, 도구, 에셋, 참고 링크' },

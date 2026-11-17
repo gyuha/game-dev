@@ -3,7 +3,7 @@ version: '3'
 vars:
   REPO:
     sh: gh repo view --json nameWithOwner -q .nameWithOwner
-  SITE_URL: https://gyuha.github.io/game-dev/
+  SITE_URL: https://gyuha.com/game-dev/
 
 tasks:
   default:

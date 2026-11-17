@@ -2,7 +2,7 @@
 
 게임개발 정보 수집 블로그 — Astro + MDX + Tailwind CSS + GitHub Pages
 
-배포 주소: https://gyuha.github.io/game-dev/
+배포 주소: https://gyuha.com/game-dev/
 
 ## 로컬 실행
 
