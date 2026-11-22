@@ -18,6 +18,15 @@
 - Prefer several small top-to-bottom diagrams over a wide chart. Stack comparisons vertically in separate code blocks so they remain readable on mobile.
 - In flowcharts, explicitly style semantic node groups with a restrained pastel palette and dark text. Quote labels containing parser-sensitive punctuation, and use `<br>` rather than `\n` for label line breaks.
 
+## Post hero images
+- Every new post must have one representative hero image generated from the post's actual topic and content. Do not reuse a generic image or the source site's thumbnail when a content-specific image can be made.
+- Use the built-in `image_gen` tool by default. Create a polished raster image suitable for a blog hero, normally in a wide 16:9 composition, with no text, logo, watermark, or fabricated UI unless the post specifically requires it.
+- Save the final image beside the post as `src/content/blog/<category>/<year>/<month>/<slug>-hero.png` (or another stable raster extension), and keep the image in the repository as a content asset. Send any generated project file to the user using the configured file-delivery command.
+- Set the schema field `heroImage` to the relative asset path, for example `heroImage: './my-post-hero.png'`. Do not use only `heroImageUrl` for newly generated project artwork.
+- Display the image at the very top of the Markdown body, immediately after the frontmatter and before the introduction, using a relative Markdown image with meaningful alt text: `![대표 이미지 설명](./my-post-hero.png)`.
+- The image prompt must reflect the post's subject, audience, and visual tone. Inspect the generated result before keeping it, and regenerate or revise it if the subject, composition, or readability does not match the article.
+- When updating an existing post, preserve its current image unless the user explicitly asks for a replacement. If a post has no hero image and is being materially revised, add one following this workflow.
+
 ## Source changes
 - Keep changes scoped and follow nearby Astro, TypeScript, CSS, and Markdown conventions.
 - Content collection schema changes belong in `src/content.config.ts`; shared site metadata and category definitions live in `src/consts.ts`.
