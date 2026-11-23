@@ -30,7 +30,7 @@
 ## Source changes
 - Keep changes scoped and follow nearby Astro, TypeScript, CSS, and Markdown conventions.
 - Content collection schema changes belong in `src/content.config.ts`; shared site metadata and category definitions live in `src/consts.ts`.
-- Preserve the GitHub Pages project base `/game-dev` in `astro.config.mjs` unless the deployment target changes.
+- The site is served from the custom domain `https://game.gyuha.com/` at the root. Keep `site` in `astro.config.mjs` and `public/CNAME` in sync; do not set `base`.
 - Do not edit generated output in `dist/` or installed dependencies in `node_modules/`.
 
 ## Commands and verification

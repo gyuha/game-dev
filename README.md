@@ -2,13 +2,13 @@
 
 게임개발 정보 수집 블로그 — Astro + MDX + Tailwind CSS + GitHub Pages
 
-배포 주소: https://gyuha.com/game-dev/
+배포 주소: https://game.gyuha.com/
 
 ## 로컬 실행
 
 ```bash
 npm install
-npm run dev      # http://localhost:4321/game-dev/
+npm run dev      # http://localhost:4321/
 npm run build    # dist/ 생성
 npm run preview
 ```
@@ -37,7 +37,7 @@ draft: false             # true 면 빌드에서 제외
 1. GitHub 저장소 `Settings → Pages → Build and deployment → Source`를 **GitHub Actions**로 지정
 2. `main` 브랜치에 push 하면 `.github/workflows/deploy.yml`이 빌드·배포
 
-`<user>.github.io` 저장소나 커스텀 도메인을 쓰면 `astro.config.mjs`의 `base`를 제거하세요.
+커스텀 도메인은 `public/CNAME`(`game.gyuha.com`)과 `astro.config.mjs`의 `site`가 일치해야 하며, 루트 도메인 배포이므로 `base`는 설정하지 않습니다.
 
 ## 댓글 (선택)
 

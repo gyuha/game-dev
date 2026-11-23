@@ -1,6 +1,6 @@
 import { getCollection } from 'astro:content';
 
-/** base 경로(/game-dev)를 붙인 내부 링크 */
+/** base 경로를 붙인 내부 링크 */
 export function url(path = '') {
 	const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 	return `${base}/${path.replace(/^\//, '')}`;

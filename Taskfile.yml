@@ -3,7 +3,7 @@ version: '3'
 vars:
   REPO:
     sh: gh repo view --json nameWithOwner -q .nameWithOwner
-  SITE_URL: https://gyuha.com/game-dev/
+  SITE_URL: https://game.gyuha.com/
 
 tasks:
   default:
@@ -21,7 +21,7 @@ tasks:
       - node_modules/.package-lock.json
 
   dev:
-    desc: 개발 서버 실행 (http://localhost:4321/game-dev/)
+    desc: 개발 서버 실행 (http://localhost:4321/)
     deps: [install]
     cmds:
       - npm run dev
