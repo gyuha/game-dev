@@ -1,6 +1,6 @@
 ---
 import PostCard from '../components/PostCard.astro';
-import { CATEGORIES, SITE_DESCRIPTION } from '../consts';
+import { CATEGORIES, SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getPosts, url } from '../lib/utils';
 
@@ -14,7 +14,7 @@ const countBy = (key: string) => posts.filter((p) => p.data.category === key).le
 		<div class="absolute inset-0 bg-gradient-to-r from-zinc-950 via-zinc-950/80 to-zinc-950/15"></div>
 		<div class="relative">
 		<p class="font-mono text-sm text-accent">// game development notes</p>
-		<h1 class="mt-3 text-4xl font-extrabold tracking-tight md:text-5xl">Game Dev Log</h1>
+		<h1 class="mt-3 text-4xl font-extrabold tracking-tight md:text-5xl">{SITE_TITLE}</h1>
 		<p class="mt-4 max-w-xl text-zinc-300">{SITE_DESCRIPTION}</p>
 		<div class="mt-8 flex gap-3">
 			<a href={url('blog/')} class="rounded-lg bg-accent px-5 py-2.5 font-semibold text-zinc-950 hover:opacity-90">글 보기</a>

@@ -5,7 +5,6 @@ import { url } from '../lib/utils';
 const links = [
 	{ href: url('blog/'), label: 'Posts' },
 	{ href: url('tags/'), label: 'Tags' },
-	{ href: url('about/'), label: 'About' },
 ];
 const path = Astro.url.pathname;
 ---
@@ -30,7 +29,6 @@ const path = Astro.url.pathname;
 					</a>
 				))
 			}
-			<a href={url('rss.xml')} class="rounded-md px-3 py-1.5 hover:bg-zinc-100 dark:hover:bg-zinc-800">RSS</a>
 			<button
 				id="theme-toggle"
 				type="button"

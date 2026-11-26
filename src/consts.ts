@@ -1,4 +1,4 @@
-export const SITE_TITLE = 'Game Dev Log';
+export const SITE_TITLE = 'Game Dev';
 export const SITE_DESCRIPTION = '게임 개발 정보, 기술 튜토리얼, 개발 일지를 모으는 블로그';
 export const GITHUB_URL = 'https://github.com/gyuha/game-dev';
 
